@@ -4,22 +4,32 @@ import React from 'react'
 const Header = (props) =>{
   return (
     <div>
-      <p>{props.name} {props.num}</p>
+      <h1>{props.course}</h1>
     </div>
   )
 }
-const Content = () =>{
+const Part = (props) =>{
   return (
     <div>
-      <p>{props.name} {props.num} </p>
+      <p>{props.cont}: {props.num}</p>
     </div>
   )
 }
 
-const Total = () =>{
+const Content = (props)=>{
+  return(
+    <div>
+    <Part cont={props.cont[0]} num={props.cont[1]}></Part>
+    <Part cont={props.cont[2]} num={props.cont[3]}></Part>
+    <Part cont={props.cont[4]} num={props.cont[5]}></Part>
+  </div>
+  )
+}
+
+const Total = (props) =>{
   return (
     <div>
-      <p> {props.name} {props.num} </p>
+      <p>Number of exercises {props.num} </p>
     </div>
   )
 }
@@ -33,12 +43,18 @@ const App = () => {
   const exercises2 = 7
   const part3 = 'State of a component'
   const exercises3 = 14
+
+  const content = [
+    part1, exercises1,
+    part2, exercises2,
+    part3, exercises3
+  ];
   return (
-    <div>
+    <>
       <Header course={course} />
-      <Content ... />
-      <Total ... />
-    </div>
+      <Content cont={content} />
+      <Total num={exercises1+exercises2+exercises3} />
+    </>
   )
 }
 
