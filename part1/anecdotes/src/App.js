@@ -22,7 +22,6 @@ const App = () => {
   const [most, setMost] = useState(0)
   const [vote, setVote] = useState(Array(7).fill(0))
   const random_num = ()=>Math.floor(Math.random() * 7) 
-  console.log(selected)
   const new_anecdote= ()=>setSelected(random_num())
 
   const voting = () =>{
