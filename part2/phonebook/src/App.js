@@ -5,13 +5,17 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [ newName, setNewName ] = useState('')
-
+  
+  const hadleNewChange  = () => {
+    //console.log(target.value)
+    setNewName(newName)
+  }
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
+      <form onSubmit={hadleNewChange}>
         <div>
-          name: <input />
+          name: <input value={newName}/>
         </div>
         <div>
           <button type="submit">add</button>
