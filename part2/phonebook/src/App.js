@@ -1,20 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 import PersonForm from './Components/PersonForm'
 import Filter from './Components/Filter'
 import Persons from './Components/Persons'
-
+import axios from 'axios'
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4}
-  ]) 
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNumber ] = useState('')
   const [ search_term, searchTerm ] = useState('')
   
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons').then(response => {
+        console.log(response.data)
+        setPersons(response.data)
+      })
+  }, [])
+
   const addPerson  = (event) => {
     event.preventDefault()
     const personObject = {
@@ -38,17 +42,16 @@ const App = () => {
     setNumber(event.target.value)
   }
   const hadleSearch = (event) =>{
-    
     searchTerm(event.target.value)
   }
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter search_term={search_term} hadleSearch={hadleSearch}></Filter>
+      <Filter search_term={search_term} hadleSearch={hadleSearch}/>
       <h2>Add a new</h2>
-      <PersonForm newName={newName} addPerson={addPerson} newNumber={newNumber} hadleNewPerson={hadleNewPerson} hadleNewNumber={hadleNewNumber}></PersonForm>
+      <PersonForm newName={newName} addPerson={addPerson} newNumber={newNumber} hadleNewPerson={hadleNewPerson} hadleNewNumber={hadleNewNumber}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} search_term={search_term}></Persons>
+      <Persons persons={persons} search_term={search_term}/>
     </div>
 
   )
