@@ -1,9 +1,8 @@
 import React from 'react'
 
-const Form =({newName,newNumber,hadleNewPerson,hadleNewNumber,addPerson}) =>{
+const PersonForm =({newName,newNumber,hadleNewPerson,hadleNewNumber,addPerson}) =>{
     return(
     <>
-    <h2>Add a new</h2>
     <form onSubmit={addPerson}>
     <div> name: <input value={newName} onChange={hadleNewPerson}/></div>
     <div>number: <input value={newNumber} onChange={hadleNewNumber}/></div>
@@ -12,4 +11,4 @@ const Form =({newName,newNumber,hadleNewPerson,hadleNewNumber,addPerson}) =>{
     </>
     )
 }
-export default Form
+export default PersonForm

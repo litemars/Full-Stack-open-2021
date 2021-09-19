@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Form from './Components/Form'
+import PersonForm from './Components/PersonForm'
 import Filter from './Components/Filter'
 import Persons from './Components/Persons'
 
@@ -23,7 +23,7 @@ const App = () => {
       id: persons.length+1
     }
     if(persons.filter(per=>per.name===personObject.name).length!==0){
-      alert(newName +'is already added to phonebook')
+      alert(newName +' is already added to phonebook')
     }else{
 
     setPersons(persons.concat(personObject))
@@ -43,8 +43,11 @@ const App = () => {
   }
   return (
     <div>
+      <h2>Phonebook</h2>
       <Filter search_term={search_term} hadleSearch={hadleSearch}></Filter>
-      <Form newName={newName} addPerson={addPerson} newNumber={newNumber} hadleNewPerson={hadleNewPerson} hadleNewNumber={hadleNewNumber}></Form>
+      <h2>Add a new</h2>
+      <PersonForm newName={newName} addPerson={addPerson} newNumber={newNumber} hadleNewPerson={hadleNewPerson} hadleNewNumber={hadleNewNumber}></PersonForm>
+      <h2>Numbers</h2>
       <Persons persons={persons} search_term={search_term}></Persons>
     </div>
 
