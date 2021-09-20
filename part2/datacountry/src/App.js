@@ -23,7 +23,7 @@ function App() {
   return (
     <div>
     <div> find countries <input value={input} onChange={hadleSearch}/></div>
-    <Country country={country} input={input} />
+    <Country country={country} input={input} setInput={setInput} />
     </div>
     )
 }
