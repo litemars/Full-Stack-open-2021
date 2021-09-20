@@ -2,8 +2,9 @@ import React from 'react'
 
 const Country =({country, input}) =>{
     
-    const list=country.filter( con => con.name.toLowerCase().match(input.toLowerCase()))
-    console.log(list)
+    const list=country.filter( (con) => {
+        con.name.toLowerCase().match(input.toLowerCase())
+    })
 
 
     if(list.length===1){
@@ -14,8 +15,8 @@ const Country =({country, input}) =>{
                 <p>Population {list[0].population}</p>
                 <h3>Languages</h3>
                     <ul>
-                    {list[0].languages.map(lan =>
-                    <li key={lan.iso639_1}>{lan.name}</li>)
+                    {list[0].languages.map((lan) =>{
+                    <li key={lan.iso639_1}>{lan.name}</li>})
                     }
                     </ul>
                 <img src={list[0].flag} alt="country flag"  width='150' height='150'/>
