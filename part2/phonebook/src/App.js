@@ -2,6 +2,7 @@ import React, { useState , useEffect } from 'react'
 import PersonForm from './Components/PersonForm'
 import Filter from './Components/Filter'
 import Persons from './Components/Persons'
+import Notification from './Components/Notification'
 import {getAll,delede, create,update} from './Components/Services';
 
 
@@ -10,7 +11,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNumber ] = useState('')
   const [ search_term, searchTerm ] = useState('')
-  
+  const [error, setError] = useState('')
+
   useEffect(() => {
     getAll()
       .then(response => {
@@ -22,7 +24,8 @@ const App = () => {
 
   const deledeFunction = (event)=>{
     var id = event.target.id
-    if(window.confirm("Delete "+event.target.value+" ?"))
+    var n=event.target.value
+    if(window.confirm("Delete "+n+" ?"))
     {
     delede(id)
     .then(()=>{
@@ -32,7 +35,12 @@ const App = () => {
     setPersons(newPersons)
   })
   .catch(error =>{
-    console.log("fail")
+    setError(
+      "Information of "+n+" has already been removed from server"  
+    )
+    setTimeout(() => {
+      setError(null)
+    }, 5000)
   })
   }
 
@@ -40,6 +48,7 @@ const App = () => {
 
   const addPerson  = (event) => {
     event.preventDefault()
+    let error_name=newName
     const personObject = {
       name: newName,
       number: newNumber,
@@ -64,11 +73,18 @@ const App = () => {
           console.log("error"))
       }
     }else{
+      console.log(personObject)
       create(personObject)
       .then(() => {
         setPersons(persons.concat(personObject))
         setNewName('')
         setNumber('')
+        setError(
+          "Added "+error_name 
+        )
+        setTimeout(() => {
+          setError(null)
+        }, 5000)
       })
       .catch(()=>
       console.log("error"))
@@ -86,6 +102,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {error?<Notification  message={error}/>:<></>}
       <Filter search_term={search_term} hadleSearch={hadleSearch}/>
       <h2>Add a new</h2>
       <PersonForm newName={newName} addPerson={addPerson} newNumber={newNumber}  hadleNewPerson={hadleNewPerson} hadleNewNumber={hadleNewNumber}/>

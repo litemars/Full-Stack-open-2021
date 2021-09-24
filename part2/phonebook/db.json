@@ -22,18 +22,8 @@
     },
     {
       "name": "max",
-      "number": "mas",
+      "number": "max",
       "id": 5
-    },
-    {
-      "name": "ale",
-      "number": "123",
-      "id": 6
-    },
-    {
-      "name": "asd",
-      "number": "asd",
-      "id": 7
     }
   ]
 }
