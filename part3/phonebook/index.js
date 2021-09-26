@@ -4,6 +4,10 @@ var morgan = require('morgan')
 const app =express()
 morgan.token('json', function (req, res) {  if(req.method==='POST') return JSON.stringify(req.body)})
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :json'))
+const cors = require('cors')
+
+app.use(cors())
+app.use(express.static('build'))
 let phone = [
     { 
       "id": 1,
@@ -34,7 +38,9 @@ app.delete('/api/persons/:id', (request, response) => {
   phone = phone.filter(p => p.id !== id)
   response.status(204).end()
 })
-
+app.get('/',(req,res)=>{
+  res.send("<p>HOME</p>")
+})
 app.get('/api/persons',(request, response) => {
   response.json(phone)
 })
@@ -83,6 +89,7 @@ app.get('/info',(request,response)=>{
   response.send('<div>Phonebook has info for ' + num_phone + ' people</div><div>' + new Date() + '</div>')
 })
 
-const PORT = 3001
-app.listen(PORT,()=>
-console.log(`Server running on port ${PORT}`))
+const PORT = process.env.PORT || 3001
+app.listen(PORT,()=>{
+  console.log(`Server running on port ${PORT}`)
+})
