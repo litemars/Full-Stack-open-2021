@@ -68,8 +68,11 @@ const App = () => {
           setNewName('')
           setNumber('')
         })
-        .catch(()=>
-          console.log("error"))
+        .catch(error=>
+        setError(
+          error
+        )  
+        )
       }
     }else{
       console.log(personObject)
