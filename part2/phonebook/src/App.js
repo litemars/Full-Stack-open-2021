@@ -51,8 +51,7 @@ const App = () => {
     let error_name=newName
     const personObject = {
       name: newName,
-      number: newNumber,
-      id: persons.length+1
+      number: newNumber
     }
     if(persons.filter(per=>per.name===personObject.name).length!==0){
       if(window.confirm(personObject.name + " is already added to phonebook, replace the old number with a new one?")){
@@ -75,8 +74,8 @@ const App = () => {
     }else{
       console.log(personObject)
       create(personObject)
-      .then(() => {
-        setPersons(persons.concat(personObject))
+      .then((response) => {
+        setPersons(persons.concat(response))
         setNewName('')
         setNumber('')
         setError(
