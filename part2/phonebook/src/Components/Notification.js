@@ -2,7 +2,7 @@ import React from 'react'
 const Notification = ({ message }) => {
     
     
-    const green = message.match('removed') || message.match('failed')?{ 
+    const green = message.match('removed') || message.match("failed") ?{ 
         color: 'red',
         background: 'lightgrey',
         fontSize: '20px',

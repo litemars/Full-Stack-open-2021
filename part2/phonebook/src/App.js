@@ -75,7 +75,6 @@ const App = () => {
         )
       }
     }else{
-      console.log(personObject)
       create(personObject)
       .then((response) => {
         setPersons(persons.concat(response))
@@ -88,10 +87,11 @@ const App = () => {
           setError(null)
         }, 5000)
       })
-      .catch(()=>
-      console.log("error"))
-    }
+      .catch(error=> {
+        setError(error.response.data)
+      })
   }
+}
   const hadleNewPerson = (event) =>{
     setNewName(event.target.value)
   }
