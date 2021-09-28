@@ -5,12 +5,12 @@ const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
 const loginRouter = require('./controllers/login')
 const usersRouter = require('./controllers/user')
-const errorHandler = require('./utils/ErrorHandler')
+const middleware = require('./utils/middleware')
+const conf = require('./utils/config')
 //const morgan = require('morgan')
 
-//const mongoUrl = process.env.MONGODB_URI 
+const mongoUrl = conf.MONGODB_URI 
 
-const mongoUrl = 'mongodb+srv://fullstack1:fullstack1@cluster0.f9mfy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose.connect(mongoUrl)
 
 //morgan.token('json', function (req, res) { if (req.method === 'POST') return JSON.stringify(req.body) })
@@ -22,6 +22,8 @@ app.use(express.json())
 app.use('/api/login',loginRouter)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
-app.use(errorHandler.errorHandler)
-app.use(errorHandler.unknownEndpoint)
+app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint)
+app.use(middleware.tokenExtractor)
+app.use(middleware.userExtractor)
 module.exports=app

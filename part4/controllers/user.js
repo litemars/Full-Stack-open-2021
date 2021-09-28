@@ -14,7 +14,6 @@ usersRouter.delete("/:id", async (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
   const body = request.body
-    console.log(body.password)
     //CHECKS
     if (!body.password || body.password === '') {
         return response.status(400).json({ error: 'password required' })
@@ -37,7 +36,10 @@ usersRouter.post('/', async (request, response) => {
     passwordHash,
   })
 
-  const savedUser = await user.save()
+  const savedUser = await user.save().catch((err)=>{
+      console.log(err)
+      return response.status(400).json({ error: 'Username invalid' })
+  })    
 
   response.json(savedUser)
 })
