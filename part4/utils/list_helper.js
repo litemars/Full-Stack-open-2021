@@ -1,6 +1,6 @@
 const _ = require('lodash')
-const blog = require('../models/blog')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const dummy = () => {
   return 1
@@ -70,11 +70,16 @@ const value = _.sortBy(results).reverse()[0];
   return ret;
 };
 
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(u => u.toJSON())
+}
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  usersInDb,
   mostLikes
   }

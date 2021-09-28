@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const { response, resource } = require('../app')
 const app = require('../app')
+const bcrypt = require('bcryptjs')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 
 
 
 test("Blogs are returned as json",async()=>{
-
     await api
         .get("/api/blogs")
         .expect(200)
@@ -19,21 +19,33 @@ test("Blogs are returned as json",async()=>{
 
 test("Testing /api/blogs",async()=>{
 
+    const newUser={
+        username:"test1",
+        password:"test1"
+    }
+
+    const createUser = await api
+    .post('/api/login')
+    .send(newUser)
+    .expect('Content-Type', /application\/json/)
+
     const newBlog1 = {
         title: 'Alabama',
         author: 'Me',
         url: 'http://alabama.com',
         likes: 2
       }
-    let response=await api
+
+    let response = await api
         .get("/api/blogs")
         .expect(200)
         .expect('Content-Type',/application\/json/)
-    console.log(response.body.length)
-    let response2=await api
+        
+    let response2 = await api
             .post('/api/blogs')
             .send(newBlog1)
-            .expect(201)
+            .set('Authorization', 'bearer '+loggedUser.body.token)
+            .expect(200)
             .expect('Content-Type', /application\/json/)
     expect(response2.body.length===response.body.length+1)
 })
@@ -48,6 +60,7 @@ test('Default 0 like', async () => {
         author: 'Rudolf',
         url: 'http://chicago.com'
       }
+      
     let response= await api
         .post('/api/blogs')
         .send(newBloglikes)
@@ -60,7 +73,7 @@ test('Default 0 like', async () => {
 test('Missing title and url', async () => {
 
     const newBlogMissing = {
-        author: 'Rudolf',
+        author: 'Rudolf'
       }
       await api
       .post('/api/blogs')
