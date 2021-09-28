@@ -14,12 +14,12 @@ usersRouter.delete("/:id", async (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
   const body = request.body
-
+    console.log(body.password)
     //CHECKS
     if (!body.password || body.password === '') {
         return response.status(400).json({ error: 'password required' })
     }
-    if (!body.password < 3) {
+    if (body.password < 3) {
         return response.status(400).json({ error: 'password must be at the least 3 characters' })
     }
 
@@ -27,6 +27,7 @@ usersRouter.post('/', async (request, response) => {
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
+  console.log(passwordHash)
   const user = new User({
     username: body.username,
     name: body.name,

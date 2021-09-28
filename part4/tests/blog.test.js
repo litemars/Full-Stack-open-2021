@@ -24,7 +24,7 @@ test("Testing /api/blogs",async()=>{
         password:"test1"
     }
 
-    const createUser = await api
+    const createUser1 = await api
     .post('/api/login')
     .send(newUser)
     .expect('Content-Type', /application\/json/)
@@ -44,7 +44,7 @@ test("Testing /api/blogs",async()=>{
     let response2 = await api
             .post('/api/blogs')
             .send(newBlog1)
-            .set('Authorization', 'bearer '+loggedUser.body.token)
+            .set('Authorization',createUser1.body.token)
             .expect(200)
             .expect('Content-Type', /application\/json/)
     expect(response2.body.length===response.body.length+1)
@@ -55,16 +55,27 @@ test('Blog unique ID', async () => {
   })
 
 test('Default 0 like', async () => {
+
+    const newUser2={
+        username:"test20",
+        password:"test20"
+    }
+    const createUser = await api
+    .post('/api/login')
+    .send(newUser2)
+    .expect('Content-Type', /application\/json/)
+
     const newBloglikes = {
         title: 'Chicago',
         author: 'Rudolf',
         url: 'http://chicago.com'
       }
-      
+
     let response= await api
         .post('/api/blogs')
+        .set('Authorization',createUser.body.token)
         .send(newBloglikes)
-        .expect(201)
+        .expect(200)
         .expect('Content-Type', /application\/json/)
 
     expect(response.body.likes).toBe(0)
@@ -72,11 +83,21 @@ test('Default 0 like', async () => {
 })
 test('Missing title and url', async () => {
 
+    const newUser2={
+        username:"test20",
+        password:"test20"
+    }
+    const createUser = await api
+    .post('/api/login')
+    .send(newUser2)
+    .expect('Content-Type', /application\/json/)
+
     const newBlogMissing = {
         author: 'Rudolf'
       }
       await api
       .post('/api/blogs')
+      .set('Authorization',createUser.body.token)
       .send(newBlogMissing)
       .expect(400)
 
