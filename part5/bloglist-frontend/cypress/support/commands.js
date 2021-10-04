@@ -28,7 +28,7 @@ Cypress.Commands.add('login', ({ username, password }) => {
       username,
       password,
     }).then(({ body }) => {
-      localStorage.setItem('loggedBlogUser', JSON.stringify(body))
+      localStorage.setItem('User', JSON.stringify(body))
       cy.visit('http://localhost:3000')
     })
   })
@@ -39,8 +39,8 @@ Cypress.Commands.add('login', ({ username, password }) => {
       method: 'POST',
       body,
       headers: {
-        Authorization: `bearer ${
-          JSON.parse(localStorage.getItem('loggedBlogappUser')).token
+        Authorization: `${
+          JSON.parse(localStorage.getItem('User')).token
         }`,
       },
     })
