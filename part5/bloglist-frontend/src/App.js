@@ -79,10 +79,7 @@ const App = () => {
   }
 
 
-
-  //CHANGE
   const changeLikes = async (newObj) => {
-    console.log('update like',newObj)
     await blogService.update(newObj)
     setBlogs(
       blogs.map((blog) => (blog.id === newObj.id ? newObj : blog))
@@ -122,6 +119,7 @@ const App = () => {
       <div>
         username
         <input
+          id="username"
           type="text"
           value={username}
           name="Username"
@@ -131,13 +129,14 @@ const App = () => {
       <div>
         password
         <input
+          id="password"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id="loginButton" type="submit">login</button>
     </form>
   )
 
@@ -152,7 +151,7 @@ const App = () => {
 
           <div>{user.username} logged in <button onClick={handleLogout}>logout</button></div>
 
-          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+          <Togglable buttonLabel="new blog" buttonLabel1="cancel" ref={blogFormRef}>
             <BlogNew handleNewBlog={handleNewBlog}/>
           </Togglable>
           <ul>
