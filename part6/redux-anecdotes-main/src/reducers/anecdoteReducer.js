@@ -1,53 +1,54 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+import service from "../services/service"
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
-
-const initialState = anecdotesAtStart.map(asObject)
-
-const anecdoteReducer = (state = initialState, action) => {
+const anecdoteReducer = (state = [], action) => {
   console.log('state now: ', state)
-  console.log('action', action)
+  console.log('action', action.data)
+
   switch(action.type){
     case 'Vote':{
-      return state.map((an)=>an.id===action.data.id?
+      state = state.map((an)=>an.id===action.data?
       {...an, votes: an.votes+1}: an 
-      )}
-    case 'New':{
-      return[...state,action.data]
+      )
+      return state
     }
+    case 'New':{
+      return [...state, action.data]
+    }
+    case 'Init':
+      return action.data
     default: return state
   }
 }
 
-export const voteAnecdote = (id)=>{
-  return{
-    type:'Vote',
-    data: {id},
+export const voteAnecdote = (an)=>{
+  return async (dispatch) => {
+    await service.voteUp({ ...an, votes: an.votes + 1 })
+    dispatch({
+      type: 'Vote',
+      data: an.id,
+    })
   }
 }
 
-export const newAnecdote = (anecdote) => ({
-  type: "New",
-  data: {
-    content: anecdote,
-    id: getId(),
-    votes: 0,
-  },
-})
+export const newAnecdote = (anecdote) => {
+  return async (dispatch) => {
+    anecdote = await service.createNew(anecdote)
+    dispatch({
+      type: 'New',
+      data: anecdote,
+    })
+  }
+}
+
+export const initializeAnecdotes = () => {
+  console.log("INIT")
+  return async (dispatch) => {
+    const anecdotes = await service.getAll()
+    dispatch({
+      type: 'Init',
+      data: anecdotes,
+    })
+  }
+}
 
 export default anecdoteReducer
