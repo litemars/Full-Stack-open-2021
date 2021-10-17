@@ -1,6 +1,6 @@
   
 import React, { useState } from 'react'
-import { useQuery , useMutation } from '@apollo/client'
+import {useMutation } from '@apollo/client'
 import { AUTHORS, EDIT_AUTHOR, BOOKS } from '../queries/query'
 import Select from "react-select";
 
@@ -14,7 +14,7 @@ const Authors = (props) => {
     refetchQueries: [{ query: BOOKS }, { query: AUTHORS }]
     })
 
-  const result = useQuery(AUTHORS)
+  const result = props.authors
 
   const submit = async (event) => {
 

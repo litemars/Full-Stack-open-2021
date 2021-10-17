@@ -22,10 +22,12 @@ const NewBook = (props) => {
     event.preventDefault()
     
     let published=parseInt(published_string, 10)
-    console.log("author",author)
+    setGenres(genres.concat(genre))
+    //console.log("all value",title,author,published,genres)
     addBook({
-      variables: {title,author,published,genres}
+      variables: {title,author,published,genre:genres}
     })
+    //console.log("done add")
     setTitle('')
     setPublished('')
     setAuhtor('')
