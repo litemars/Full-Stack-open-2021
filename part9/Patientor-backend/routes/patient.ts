@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express';
-import {getPat,addPat} from '../serviceData/patients';
+import {getPat,addPat, GetPatById} from '../serviceData/patients';
+import {toNewPatientEntry} from '../utils'
 
 //const id = uuid()
 const router = express.Router();
 
 router.post('/', (req, res) => { 
-    console.log("req-new",req.body);
-    const Patient={
-        name: req.body.name,
-        dateOfBirth: req.body.birth,
-        ssn: req.body.ssn,
-        gender: req.body.gender,
-        occupation: req.body.occupation
-    };
-    res.json(addPat(Patient));
+    try{
+        const newEntry = toNewPatientEntry(req.body);
+        res.json(addPat(newEntry));
+    }catch(error){
+        res.status(400).send(error.message)
+    }
   });
 
 router.get('/',(_req,res)=>{
     res.send(getPat());
+});
+router.get('/:id',(req,res)=>{
+    res.send(GetPatById(req.params.id));
 });
 
 export default router;
