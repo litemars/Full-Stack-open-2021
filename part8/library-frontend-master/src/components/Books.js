@@ -8,7 +8,8 @@ const Books = (props) => {
   //const [genres, setGenres] = useState([])
   //const [books,setBooks]=useState(null)
   var books=[]
-  const [booksSorted,setBooksSorted]=useState(result)
+  const [booksSorted,setBooksSorted]=useState([])
+  /*
   useEffect(() => {
     console.log("check")
     //var genres = []
@@ -25,17 +26,17 @@ const Books = (props) => {
     })
     console.log(genres)
   }, [booksSorted])
-
+*/
 
   if (!props.show) {
     return null
   }
-  if (booksSorted.loading) return <div>loading...</div> 
+  if (result.loading) return <div>loading...</div> 
   console.log("carica")
-  console.log(booksSorted)
+  console.log(result.data.allBooks)
   //setBooksSorted(result.data.allBooks)
-  
-
+  const books_list=result.data.allBooks
+  setBooksSorted(books_list)
 
   const setGenres_fun = (val) =>{
     if(val!==null){
