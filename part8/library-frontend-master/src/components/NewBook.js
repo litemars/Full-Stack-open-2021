@@ -5,6 +5,7 @@ import { ADD_BOOK, BOOKS, AUTHORS } from '../queries/query'
 const NewBook = (props) => {
 
   const [ addBook ] = useMutation(ADD_BOOK,{
+    onError:(error)=>{console.log("error new books")},
     refetchQueries: [{ query: BOOKS }, { query: AUTHORS }]
     })
 
@@ -23,11 +24,11 @@ const NewBook = (props) => {
     
     let published=parseInt(published_string, 10)
     setGenres(genres.concat(genre))
-    //console.log("all value",title,author,published,genres)
+    console.log("all value",title,author,published,genres)
     addBook({
       variables: {title,author,published,genre:genres}
     })
-    //console.log("done add")
+    console.log("done add")
     setTitle('')
     setPublished('')
     setAuhtor('')

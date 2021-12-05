@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Genres = ({ genres, setGenres_fun }) => {
+  console.log(genres)
   return (
     <div>
       <button key="all genres" onClick={() => setGenres_fun(null)}>

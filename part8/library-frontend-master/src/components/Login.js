@@ -3,7 +3,11 @@ import { LOGIN } from '../queries/query'
 import React, { useState, useEffect } from 'react'
 
 const Login = ({setToken,show}) =>{
-    const [login, result] = useMutation(LOGIN)
+    const [login, result] = useMutation(LOGIN,{  
+        onError: (error) => {
+        console.log("error")
+      }
+    })
 
     useEffect(() => {
         if (result.data) {
@@ -19,8 +23,6 @@ const Login = ({setToken,show}) =>{
 
 
 
-    
-    console.log("show",show)
     if (!show) {
         
         return null
@@ -30,9 +32,7 @@ const Login = ({setToken,show}) =>{
 
     const submit = async (event) => {
         event.preventDefault()
-        console.log("submit")
         login({ variables: { username, password } })
-
         setUsername('')
         setPassword('')
     

@@ -6,15 +6,23 @@ import Select from "react-select";
 
 const Authors = (props) => {
 
+  
   const [name, setName] = useState(null)
   const [born_string, setBorn] = useState('')
-
 
   const [ editAuthor ] = useMutation(EDIT_AUTHOR,{
     refetchQueries: [{ query: BOOKS }, { query: AUTHORS }]
     })
 
-  const result = props.authors
+    const result = props.authors
+    if (!props.show) {
+      return null
+    }
+  
+    
+    if(result.loading){
+      return<div>loading....</div>
+    }
 
   const submit = async (event) => {
 
@@ -27,16 +35,11 @@ const Authors = (props) => {
     setBorn('')
     setName(null)
   }
-
-  if (!props.show) {
-    return null
-  }
+  
 
   
-  if(result.loading){
-    return<div>loading....</div>
-  }
-  
+
+
   const authors = result.data.allAuthors
 
   return (

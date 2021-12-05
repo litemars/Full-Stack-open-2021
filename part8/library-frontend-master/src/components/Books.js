@@ -1,50 +1,20 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Genres from './Genres'
 
 const Books = (props) => {
 
   const result = props.books
-  var genres=[];
-  //const [genres, setGenres] = useState([])
-  //const [books,setBooks]=useState(null)
-  var books=[]
-  const [booksSorted,setBooksSorted]=useState([])
-  /*
-  useEffect(() => {
-    console.log("check")
-    //var genres = []
-    console.log(books)
-    books.forEach((book) => {
-      console.log("gen book",book.genre)
-      if (book.genre) {
-        console.log("here")
-        book.genre.forEach((genre) => {
-          console.log("each",genre)
-          genres=genres.concat(genre)
-        })
-      }
-    })
-    console.log(genres)
-  }, [booksSorted])
-*/
 
+  const [genre,setGenres_fun]=useState(null)
+  
   if (!props.show) {
     return null
   }
   if (result.loading) return <div>loading...</div> 
-  console.log("carica")
-  console.log(result.data.allBooks)
-  //setBooksSorted(result.data.allBooks)
-  const books_list=result.data.allBooks
-  setBooksSorted(books_list)
 
-  const setGenres_fun = (val) =>{
-    if(val!==null){
-      console.log("val",val)
-      console.log(books[0].genre)
-      setBooksSorted(books.filter((book) => book.genre.includes(val)))
-    }
-}
+const genres = result.data.allBooks.flatMap(b => b.genre)
+const books = genre ? result.data.allBooks.filter(b => b.genre.includes(genre)) : result.data.allBooks
+
 
   return (
     <div>
@@ -61,7 +31,7 @@ const Books = (props) => {
               published
             </th>
           </tr>
-          {booksSorted.map(a =>
+          {books.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
