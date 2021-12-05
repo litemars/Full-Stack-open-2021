@@ -19,16 +19,19 @@ const NewBook = (props) => {
     return null
   }
 
+  const addGenre = () => {
+    setGenres(genres.concat(genre))
+    setGenre('')
+  }
+
   const submit = async (event) => {
     event.preventDefault()
-    
+    addGenre()
     let published=parseInt(published_string, 10)
-    setGenres(genres.concat(genre))
     console.log("all value",title,author,published,genres)
     addBook({
       variables: {title,author,published,genre:genres}
     })
-    console.log("done add")
     setTitle('')
     setPublished('')
     setAuhtor('')
@@ -36,10 +39,7 @@ const NewBook = (props) => {
     setGenre('')
   }
 
-  const addGenre = () => {
-    setGenres(genres.concat(genre))
-    setGenre('')
-  }
+
 
   return (
     <div>

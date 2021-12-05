@@ -12,7 +12,7 @@ const Books = (props) => {
   }
   if (result.loading) return <div>loading...</div> 
 
-const genres = result.data.allBooks.flatMap(b => b.genre)
+const genres = [...new Set(result.data.allBooks.flatMap(b => b.genre))]
 const books = genre ? result.data.allBooks.filter(b => b.genre.includes(genre)) : result.data.allBooks
 
 

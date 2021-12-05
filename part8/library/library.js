@@ -123,7 +123,7 @@ const resolvers = {
   Mutation: {
 
     createUser: (root, args) => {
-      console.log("create",args)
+
       const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
   
       return user.save()
@@ -135,9 +135,8 @@ const resolvers = {
     },
 
     login: async (root, args) => {
-      console.log("user")
+
       const user = await User.findOne({ username: args.username })
-      console.log("user",user)
       if ( !user || args.password !== 'secret' ) {
         throw new UserInputError("wrong credentials")
       }
@@ -151,8 +150,7 @@ const resolvers = {
     },
 
     addBook: async (root,argv)=>{
-      console.log("adding...")
-      console.log(argv)
+
       let aut=await Author.findOne({ name: argv.author })
       if(aut == undefined){
         const author =new Author({
@@ -160,7 +158,6 @@ const resolvers = {
           id: uuid(),
           born:null,
         })
-        console.log("new author book",author)
         try{
           await author.save()
           
@@ -170,10 +167,8 @@ const resolvers = {
           })
         }
       }
-      console.log("author saved done")
-      console.log("construnction book:")
       const book = new Book({ ...argv, author: aut.id , id: uuid() })
-      console.log("book done",book)
+
       try{
         await book.save()
 
@@ -189,10 +184,8 @@ const resolvers = {
           invalidArgs: argv,
         })
       }
-      console.log("book adding...",book)
       pubsub.publish('BOOK_ADDED', { bookAdded: book })
       //book = await Book.populate('author').execPopulate()
-      console.log("book publushed")
       return book
     },
 
