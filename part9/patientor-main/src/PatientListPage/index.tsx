@@ -13,7 +13,7 @@ const PatientListPage = () => {
   const [{ patients }, dispatch] = useStateValue();
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string | undefined>();
+  const [error, setError] = React.useState<string | undefined >();
 
   const openModal = (): void => setModalOpen(true);
 
@@ -23,7 +23,6 @@ const PatientListPage = () => {
   };
 
   const submitNewPatient = async (values: PatientFormValues) => {
-    console.log("values",values);
     try {
       const { data: newPatient } = await axios.post<Patient>(
         `${apiBaseUrl}/patients`,
@@ -32,7 +31,7 @@ const PatientListPage = () => {
       dispatch({ type: "ADD_PATIENT", payload: newPatient });
       closeModal();
     } catch (e) {
-      setError('Unknown error');
+      setError(e);
     }
   };
   console.log("patient",patients);

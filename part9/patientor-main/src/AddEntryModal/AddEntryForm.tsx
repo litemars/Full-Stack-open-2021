@@ -60,7 +60,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
             }}
             onSubmit={onSubmit}
             validate={(values) => {
-                const requiredError = 'Field is required';
+                const requiredError = 'Field required';
                 const errors: { [field: string]: string } = {};
                 if (!values.description) {
                     errors.description = requiredError;
@@ -109,7 +109,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                         />
                         <Field
                             label="Specialist"
-                            placeholder="Doctor House MD"
+                            placeholder="Doctor Name"
                             name="specialist"
                             component={TextField}
                         />
@@ -136,7 +136,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                                 />
                                 <Field
                                     label="Discrarge criteria"
-                                    placeholder="The illness was healed"
+                                    placeholder="Illness"
                                     name="discharge.criteria"
                                     component={TextField}
                                 />
@@ -149,7 +149,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                             <React.Fragment>
                                 <Field
                                     label="Employer Name"
-                                    placeholder="Work LTD."
+                                    placeholder="Work"
                                     name="employerName"
                                     component={TextField}
                                 />
