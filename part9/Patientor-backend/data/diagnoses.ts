@@ -1,4 +1,6 @@
-[
+import { Diagnosis } from '../type';
+
+export const data:Diagnosis[]=[
     {
       "code": "M24.2",
       "name": "Disorder of ligament",

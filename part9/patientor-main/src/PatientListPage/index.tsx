@@ -8,7 +8,7 @@ import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import HealthRatingBar from "../components/HealthRatingBar";
 import { useStateValue } from "../state";
-
+import { Link } from 'react-router-dom';
 const PatientListPage = () => {
   const [{ patients }, dispatch] = useStateValue();
 
@@ -23,6 +23,7 @@ const PatientListPage = () => {
   };
 
   const submitNewPatient = async (values: PatientFormValues) => {
+    console.log("values",values);
     try {
       const { data: newPatient } = await axios.post<Patient>(
         `${apiBaseUrl}/patients`,
@@ -31,11 +32,10 @@ const PatientListPage = () => {
       dispatch({ type: "ADD_PATIENT", payload: newPatient });
       closeModal();
     } catch (e) {
-      console.error(e.response?.data || 'Unknown Error');
-      setError(e.response?.data?.error || 'Unknown error');
+      setError('Unknown error');
     }
   };
-
+  console.log("patient",patients);
   return (
     <div className="App">
       <Container textAlign="center">
@@ -53,6 +53,11 @@ const PatientListPage = () => {
         <Table.Body>
           {Object.values(patients).map((patient: Patient) => (
             <Table.Row key={patient.id}>
+              <Table.Cell>
+                  <Link to={'/patients/' + patient.id}>
+                      {patient.name}{' '}
+                  </Link>
+              </Table.Cell>
               <Table.Cell>{patient.name}</Table.Cell>
               <Table.Cell>{patient.gender}</Table.Cell>
               <Table.Cell>{patient.occupation}</Table.Cell>

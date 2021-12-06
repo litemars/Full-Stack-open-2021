@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express';
-import {getPat,addPat, GetPatById} from '../serviceData/patients';
-import {toNewPatientEntry} from '../utils'
+import {getPat,addPat, GetPatById, addEntry} from '../serviceData/patients';
+import {toNewPatientEntry, toNewEntry} from '../utils'
 
 //const id = uuid()
 const router = express.Router();
@@ -21,6 +21,19 @@ router.get('/',(_req,res)=>{
 router.get('/:id',(req,res)=>{
     res.send(GetPatById(req.params.id));
 });
+
+router.post('/:id/entries', (req, res) => {
+    try {
+        if(req.body.healthCheckRating==undefined){
+            req.body.healthCheckRating=0
+        }
+      const parsedEntry = toNewEntry(req.body);
+      const newEntry = addEntry(req.params.id, parsedEntry);
+      res.json(newEntry);
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  });
 
 export default router;
 

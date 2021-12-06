@@ -1,11 +1,10 @@
-import patient from '../data/patients.json';
-import { Gender,NewPatientEntry,Patient, PublicPatient } from '../type';
+import {data} from '../data/patients';
+import { NewEntry,NewPatientEntry,Patient, PublicPatient } from '../type';
 import {v1 as uuid} from 'uuid';
 
 export const getPat = (): Patient[] => {
-  const list:Patient[]=patient.map(p=>({
+  const list:Patient[]=data.map(p=>({
     ...p,
-    gender:p.gender=="Male"?Gender.Male:p.gender=="Female"?Gender.Female:Gender.Other,
     entries:[]
   }));
   return list;
@@ -20,7 +19,22 @@ export const addPat = (newPatient: NewPatientEntry): PublicPatient => {
     id: uuid(),
     ...newPatient
   };
-  patient.push(patientReady);
+  data.push(patientReady);
   return patientReady;
 };
+
+export const addEntry = (id: string, entry: NewEntry): NewEntry => {
+
+  const newEntry = {
+      id: uuid(),
+      ...entry
+  };
+  console.log("here")
+  const p = data.find(patient => patient.id === id);
   
+  if (p!==undefined) {
+    p.entries.push(newEntry)
+  }
+
+  return newEntry;
+};
